@@ -69,7 +69,7 @@ router.put('/:id',validateUserId, validateUser, (req, res) => {
     .then(count => {
       res.status(201).json({recordsUpdated: count, ...req.user,...req.body})
     })
-    .catch(err => res.status(500).json({errorMessage: "Unable to update user."}))
+    .catch(err => res.status(500).json({errorMessage: "Unable to update user.",err}))
 
 });
 
@@ -134,3 +134,4 @@ function validatePost(req, res, next) {
 }
 
 module.exports = router;
+
