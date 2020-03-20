@@ -15,9 +15,10 @@ server.get('/', (req, res) => {
 });
 
 
-
 server.use("/api/posts", postRouter);
 server.use("/api/users", userRouter);
+
+
 
 //custom middleware
 
@@ -25,6 +26,12 @@ function logger(req, res, next) {
   const date = new Date();
   console.log(`Method: ${req.method}, URL: ${req.url}, Date: ${date}`)
   next()
+}
+
+server.use(errorHandler);
+
+function errorHandler ( req,res) {
+  res.status(404).json({message: "Route not found"})
 }
 
 module.exports = server;
