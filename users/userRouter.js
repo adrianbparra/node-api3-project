@@ -1,5 +1,6 @@
 const express = require('express');
 const userDb = require("./userDb.js")
+const postDb = require("../posts/postDb.js")
 
 const router = express.Router();
 
@@ -18,9 +19,14 @@ router.post('/', validateUser, (req, res) => {
 
 router.post('/:id/posts', validatePost, (req, res) => {
   // do your magic!
-  res.status(200).json(req.body)
+  const {id} = req.params;
 
-  /// no method in userDb to add post
+  postDb.insert({user_id: id,...req.body})
+    .then(post => {
+      res.status(200).json(post)
+    })
+    .catch(err => res.status(500).json({errorMessage: "Unable to add Post."}))
+  /// no method in userDb to add post added from postDb
 
 });
 
